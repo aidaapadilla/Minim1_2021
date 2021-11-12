@@ -5,37 +5,36 @@ import java.util.List;
 
 public class Usuari {
 
-    List<Comanda> llistaComandes = new LinkedList<Comanda>();
-    List<Comanda> llistaComandesServides = new LinkedList<Comanda>();
-    String usuariID;
-    double numcomandes;
     String nomusuari;
+    String usuariID;
+    LinkedList<MyBike> llistaBicis = new LinkedList<MyBike>();
+    MyBike bike;
 
-    public String getNomUsuari(){
-
-        return this.nomusuari;
-    }
-    public void setUsuari(String nom) {
-        this.nomusuari = nom;
-    }
-    public Usuari(String nomusuari, String usuariID) {
+    public Usuari(String nomusuari, String usuariID, MyBike bike) {
         this.nomusuari = nomusuari;
         this.usuariID=usuariID;
-        this.numcomandes=0;
+        this.bike=bike;
+        llistaBicis.add(bike);
+    }
+
+    public String getNomUsuari(){return this.nomusuari;}
+    public void setUsuari(String nom) {
+        this.nomusuari = nom;
     }
 
     public String getUsuariID(){
             return this.usuariID;
     }
-    public void afegirComanda(Comanda comanda){
 
-        this.llistaComandesServides.add(comanda);
+    public void afegirBicileta(MyBike bike_nova){
+
+        this.llistaBicis.add(bike_nova);
+        this.bike=bike_nova;
     }
-
-    public List<Comanda> getLlistaComandesServides(){
-            return this.llistaComandesServides;
+    public MyBike getBike(){return this.bike;}
+    public LinkedList<MyBike> getLlistaBicis(){
+            return this.llistaBicis;
         }
-
     }
 
 

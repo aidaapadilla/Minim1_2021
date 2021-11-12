@@ -1,7 +1,8 @@
 package edu.upc.dsa;
 
-import edu.upc.dsa.models.Comanda;
-import edu.upc.dsa.models.Producto;
+import edu.upc.dsa.exception.StationNotFoundException;
+import edu.upc.dsa.models.Bicing;
+import edu.upc.dsa.models.MyBike;
 import edu.upc.dsa.models.Usuari;
 import org.junit.Assert;
 import org.junit.Before;
@@ -11,158 +12,106 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ManagerTest {
-    ManagerImpl manager;
-    Comanda comanda;
+    private ManagerImpl manager;
 
     @Before
     public void setUp  () {
         manager = new ManagerImpl();
-        manager.añadirUsuario(new Usuari("Joana","22222222X"));
-        manager.añadirUsuario(new Usuari("Jordi","33333333Y"));
-        manager.añadirUsuario(new Usuari("Aida","11111111Z"));
+        MyBike bike = new MyBike(1,100,"Horta");
+        MyBike bike2 = new MyBike(2,120, "Castefa");
+        MyBike bike3 = new MyBike(3,130, "Horta");
+        MyBike bike4 = new MyBike(4,140, "Castefa");
+        manager.addBike(bike);
+        manager.addBike(bike2);
+        manager.addBike(bike3);
+        manager.addBike(bike4);
 
-        Producto cafe = new Producto("Cafe",0.8);
-        Producto cheesecake = new Producto("Cheese Cake",2.5);
-        Producto croissant = new Producto("Croissant",1.2);
-        Producto sucdetaronja = new Producto("Suc de taronja",4.1);
-        Producto donut = new Producto("Donut",1.30);
+        Usuari aida = new Usuari("Aida","11111111Z",bike3);
+        manager.añadirUsuario(new Usuari("Joana","22222222X",bike));
+        manager.añadirUsuario(new Usuari("Jordi","33333333Y",bike2));
+        manager.añadirUsuario(aida);
+        manager.añadirUsuario(new Usuari("Sergi","44444444R",bike4));
 
-        manager.añadirProductoLista(cafe);
-        manager.añadirProductoLista(cheesecake);
-        manager.añadirProductoLista(croissant);
-        manager.añadirProductoLista(sucdetaronja);
-        manager.añadirProductoLista(donut);
+        Bicing station1 = new Bicing("Horta"); //Horta
+        Bicing station2 = new Bicing("Castefa"); //Castefa
+        station1.addBicicleta(bike);
+        station1.addBicicleta(bike3);
+        station2.addBicicleta(bike2);
+        station2.addBicicleta(bike4);
+        manager.addStation(station1);
+        manager.addStation(station2);
 
-        comanda = new Comanda("11111111Z");
-        comanda.addLP(2, donut);
-        comanda.addLP(1, cafe);
-        comanda.addLP(4,croissant);
+        LinkedList<MyBike> listaOrdenada = (LinkedList<MyBike>) manager.bikesByStationOrderByKms(station1);
+        MyBike biciAida = manager.getBike(aida);
+        List<MyBike> bicisAida = manager.bikesByUser(aida);
 
-        manager.realizarPedido(comanda);
-    }
-
-    public static void main(String[] args) {
-        ManagerImpl manager;
-        Comanda comanda;
-        manager = new ManagerImpl();
-        manager.añadirUsuario(new Usuari("Joana","22222222X"));
-        manager.añadirUsuario(new Usuari("Jordi","33333333Y"));
-        manager.añadirUsuario(new Usuari("Aida","11111111Z"));
-
-        Producto cafe = new Producto("Cafe",0.8);
-        Producto cheesecake = new Producto("Cheese Cake",2.5);
-        Producto croissant = new Producto("Croissant",1.2);
-        Producto sucdetaronja = new Producto("Suc de taronja",4.1);
-        Producto donut = new Producto("Donut",1.30);
-
-        manager.añadirProductoLista(cafe);
-        manager.añadirProductoLista(cheesecake);
-        manager.añadirProductoLista(croissant);
-        manager.añadirProductoLista(sucdetaronja);
-        manager.añadirProductoLista(donut);
-
-        comanda = new Comanda("11111111Z");
-        comanda.addLP(2, donut);
-        comanda.addLP(1, cafe);
-        comanda.addLP(4,croissant);
-
-        manager.realizarPedido(comanda);
-
-        Comanda comanda2 = new Comanda("22222222X");
-        comanda2.addLP(1,croissant);
-        comanda2.addLP(1,cafe);
-
-        manager.realizarPedido(comanda2);
-
-        Comanda comanda3 = new Comanda("33333333Y");
-        comanda3.addLP(1,cheesecake);
-        comanda3.addLP(1,sucdetaronja);
-
-        manager.realizarPedido(comanda3);
-
-        manager.servirPedido();
-        manager.servirPedido();
-
-        Comanda comanda4 = new Comanda("11111111Z");
-        comanda4.addLP(2,donut);
-        comanda4.addLP(2,sucdetaronja);
-        manager.realizarPedido(comanda4);
-
-        manager.servirPedido();
-        manager.servirPedido();
-
-        List<Producto> miListaOrdenadaPrecio = manager.ordenarProductosPrecio();
-        List<Producto> miListaOrdenadaVentas = manager.ordenarProductosVentas();
-        List<Comanda> miListaPedidosUsuario = manager.listadoPedidosUser("11111111Z");
-
-    }
-
-    @Test
-    public void ProbaRealizarPedido() {
-        Comanda miComanda = new Comanda("11111111Z");
-        Assert.assertEquals(manager.GetNumComandes(),0);
-        manager.realizarPedido(comanda);
-        Assert.assertEquals(manager.GetNumComandes(),1);
-    }
-
-    @Test
-    public void ProbaServirPedido() {
-        Assert.assertEquals(comanda.getUsuariID(), "11111111Z");
-        Assert.assertEquals(manager.GetNumComandes(), 1);
-        manager.servirPedido();
-        Assert.assertEquals(manager.GetNumComandes(), 0);
-    }
-
-    @Test
-    public void ProbaListadoPedidosUser() {
-        List<Comanda> comandas_1 = new LinkedList<>();
-        Comanda miComanda = new Comanda("11111111Z");
-        comandas_1.add(miComanda);
-        Assert.assertEquals(manager.listadoPedidosUser("11111111Z"), comandas_1);
-    }
-
-    @Test
-    public void ProbaOrdenarProductosPrecio() {
-        List<Producto> misProductos = new LinkedList<>();
-        Producto cafe = new Producto("Cafe", 0.8); //1r
-        Producto cheesecake = new Producto("Cheese Cake", 2.5); //3r
-        Producto croissant = new Producto("Croissant", 1.2); //2n
-        misProductos.add(cafe);
-        misProductos.add(croissant);
-        misProductos.add(cheesecake);
-        Assert.assertEquals(manager.ordenarProductosPrecio(), misProductos);
-    }
-
-    @Test
-    public void ProbaOrdenarProductosVentas() {
-        Comanda miComanda = new Comanda("11111111Z");
-        Producto cafe = new Producto("Cafe", 0.8);
-        Producto cheesecake = new Producto("Cheese Cake", 2.5);
-        Producto croissant = new Producto("Croissant", 1.2);
-        miComanda.addLP(3, cafe);
-        miComanda.addLP(1, cheesecake);
-        miComanda.addLP(2, croissant);
-        List<Producto> misProductos2 = new LinkedList<>();
-        misProductos2.add(cheesecake);
-        misProductos2.add(croissant);
-        misProductos2.add(cafe);
-        Assert.assertEquals(manager.ordenarProductosVentas(), misProductos2);
-    }
-
-    @Test
-    public void ProbaAñadirProductoLista(){
-        Assert.assertEquals(manager.GetNumProductos(),0);
-        Producto cafe = new Producto("Cafe",1);
-        manager.añadirProductoLista(cafe);
-        Assert.assertEquals(manager.GetNumProductos(),1);
     }
 
     @Test
     public void ProbaAñadirUsuario(){
-        Assert.assertEquals(manager.GetNumUsuarios(),0);
-        Usuari Aida = new Usuari("Aida","11111111T");
-        manager.añadirUsuario(Aida);
-        Assert.assertEquals(manager.GetNumUsuarios(),1);
+        Assert.assertEquals(manager.getNumeroUsuarios(),4);
+        MyBike bike5 = new MyBike(5,100,"honolulu");
+        Usuari hey = new Usuari("Pepe","11111111T",bike5);
+        manager.añadirUsuario(hey);
+        Assert.assertEquals(manager.getNumeroUsuarios(),5);
+    }
+    @Test
+    public void ProbaAddStation(){
+        Assert.assertEquals(manager.getNumEstacions(),100);
+        Bicing station3 = new Bicing("Horta"); //Horta
+        manager.addStation(station3);
+        Assert.assertEquals(manager.getNumEstacions(),100); //esta malament
+    }
+    @Test
+    public void ProbaAddBike(){
+        Assert.assertEquals(manager.getNumBicicletes(),4);
+        MyBike bike2 = new MyBike(4,140, "Castefa");
+        manager.addBike(bike2);
+        Assert.assertEquals(manager.getNumBicicletes(),5);
+    }
+
+    @Test
+    public void ProbaBikesByStationOrderByKms() throws StationNotFoundException {
+        LinkedList<MyBike> llistaOrdenada=new LinkedList<MyBike>();
+        MyBike bike5 = new MyBike(5,100,"honolulu");
+        MyBike bike6 = new MyBike(6,120, "honolulu");
+        MyBike bike7 = new MyBike(7,130, "honolulu");
+        MyBike bike8 = new MyBike(8,140, "honolulu");
+        Bicing station4 = new Bicing("Horta"); //Horta
+
+        station4.addBicicleta(bike8);
+        station4.addBicicleta(bike7);
+        station4.addBicicleta(bike6);
+        station4.addBicicleta(bike5);
+
+        llistaOrdenada.add(bike5);
+        llistaOrdenada.add(bike6);
+        llistaOrdenada.add(bike7);
+        llistaOrdenada.add(bike8);
+        Assert.assertEquals(manager.bikesByStationOrderByKms("Horta"),llistaOrdenada);
+    }
+    @Test
+    public void ProbaGetBike(){
+        MyBike bike5 = new MyBike(5,100,"honolulu");
+        Usuari ballenata2 = new Usuari("ballenata","123456789A",bike5);
+        Assert.assertEquals(manager.getBike(ballenata2),bike5);
+    }
+    @Test
+    public void ProbaBikesByUser(){
+        MyBike bike5 = new MyBike(5,100,"honolulu");
+        Usuari ballenata2 = new Usuari("ballenata","123456789A",bike5);
+        MyBike bike6 = new MyBike(6,120, "honolulu");
+        ballenata2.afegirBicileta(bike6);
+        MyBike bike7 = new MyBike(7,130, "honolulu");
+        ballenata2.afegirBicileta(bike7);
+        MyBike bike8 = new MyBike(8,140, "honolulu");
+        ballenata2.afegirBicileta(bike8);
+        LinkedList<MyBike> llistaOrdenada=new LinkedList<MyBike>();
+        llistaOrdenada.add(bike5);
+        llistaOrdenada.add(bike6);
+        llistaOrdenada.add(bike7);
+        llistaOrdenada.add(bike8);
+        Assert.assertEquals(manager.bikesByUser(ballenata2),llistaOrdenada);
     }
 
 }

@@ -1,67 +1,102 @@
 package edu.upc.dsa;
 
+import edu.upc.dsa.exception.StationFullException;
+import edu.upc.dsa.exception.StationNotFoundException;
+import edu.upc.dsa.exception.UserNotFoundException;
 import edu.upc.dsa.models.*;
 
 import java.util.*;
 
 public class ManagerImpl implements Manager {
 
-    private Queue<Comanda> misComandas = new LinkedList<Comanda>();
-    private List<Producto> listaProductos = new LinkedList<Producto>();
+    private LinkedList<MyBike> llistaBicicletes = new LinkedList<MyBike>();
     private Hashtable<String, Usuari> usuaris = new Hashtable<String, Usuari>();
-    private OrdenarProductoPerVentas o;
+    private Bicing[] llistaEstacions = new Bicing[100]; //private Station[] stations;
+    private int num_estacions;
 
-    public int GetNumComandes() {
-        return misComandas.size();
-    }
-    public int GetNumProductos() { return listaProductos.size();}
-    public int GetNumUsuarios(){ return usuaris.size();}
-
-    public List<Producto> ordenarProductosPrecio(){
-        List<Producto> listaOrdenada = this.listaProductos;
-        Collections.sort(listaOrdenada);
-        return listaOrdenada;
-    }
-
-    public void realizarPedido(Comanda comanda) {
-        this.misComandas.add(comanda);
-    }
-
-    @Override
-    public void servirPedido() {
-        for(ElementComanda e : misComandas.peek().getLlistaCompra()){
-            for(Producto p : listaProductos){
-                if (e.getNombreProducto() == p.getNombre()){
-                    p.ventaRealizada(e.getQuantitat());
-                }
-            }
-        }
-
-        String usuariID = misComandas.peek().getUsuariID();
-        Usuari usuari = this.usuaris.get(usuariID);
-        usuari.afegirComanda(misComandas.poll());
-    }
-
-    @Override
-    public List<Comanda> listadoPedidosUser(String usuariID) {
-        return this.usuaris.get(usuariID).getLlistaComandesServides();
-    }
-    @Override
-    public List<Producto> ordenarProductosVentas(){
-
-        List<Producto> listaOrdenada = this.listaProductos;
-        Collections.sort(listaOrdenada,new OrdenarProductoPerVentas().reversed());
-        return listaOrdenada;
-    }
-
-    @Override
-    public void añadirProductoLista(Producto producto){
-        this.listaProductos.add(producto);
-    }
+    private static ManagerImpl instance;
+    /*public static Manager getInstance() {
+        if (instance == null) instance = new ManagerImpl();
+        return instance;
+    }*/
+    public int getNumeroUsuarios(){return usuaris.size();}
+    public int getNumBicicletes(){return llistaBicicletes.size();}
+    public int getNumEstacions(){return llistaEstacions.length;}
 
     public void añadirUsuario(Usuari usuari){
         usuaris.put(usuari.getUsuariID(), usuari);
     }
+    public void addStation(Bicing station)
+    {
+        llistaEstacions[num_estacions]=station;
+        num_estacions=num_estacions+1;
+    }
+    public void addBike(MyBike bike){
+        llistaBicicletes.add(bike);
+    }
+
+    @Override
+    public List<MyBike> bikesByStationOrderByKms(Bicing station) {
+        return null;
+    }
+
+    @Override
+    public MyBike getBike(Usuari usuari) {
+        return null;
+    }
+
+    @Override
+    public List<MyBike> bikesByUser(Usuari usuari) {
+        return null;
+    }
+
+    private int getStationById(String stationId) throws StationNotFoundException {
+        int i=0;
+        while (i<this.getNumEstacions())
+        {
+            if (stationId.equals(this.llistaEstacions[i].getID())) {
+                return i;
+            }
+            else
+                i=i+1;
+        }
+        throw new StationNotFoundException();
+    }
+    public LinkedList<MyBike> bikesByStationOrderByKms(String station_name) throws StationNotFoundException {
+
+        int station_position = this.getStationById(station_name);
+        LinkedList<MyBike> listaOrdenada= this.llistaEstacions[station_position].getBicicletes();
+        Collections.sort(listaOrdenada,new Comparator<MyBike>() {
+            public int compare(MyBike o1, MyBike o2) {
+                return (int) (o1.getkm() - o2.getkm());
+            }
+        });
+        return listaOrdenada;
+    }
+
+    public MyBike getBike(String usuari) throws UserNotFoundException {
+        Usuari usuari3=this.usuaris.get(usuari);
+
+        if (usuari3 != null) {
+            MyBike bike = usuari3.getBike(); //Aquesta es la bici que està fent servir
+            return bike;
+        } else {
+            throw new UserNotFoundException();
+        }
+
+    }
+
+    public LinkedList<MyBike> bikesByUser(String usuari) throws UserNotFoundException{
+        Usuari usuari3=this.usuaris.get(usuari);
+
+        if (usuari3 != null) {
+            LinkedList<MyBike> llistabicisuser= usuari3.getLlistaBicis(); //Aquestes son les bicis que ha fet servir
+            return llistabicisuser;
+        } else {
+            throw new UserNotFoundException();
+        }
+    };
+
 
 
 }
