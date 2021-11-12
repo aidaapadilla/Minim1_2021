@@ -5,24 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e0d91c5-8def-4c60-830c-f2067e82ee39" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/exception/UserNotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/models/Bicing.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/models/MyBike.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/models/bikesByStationOrderByKms.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/Manager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/Manager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/ManagerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/ManagerImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/TracksManager.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/TracksManagerImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/exception/StationNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/exception/StationNotFoundException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/exception/UserNotFoundExeption.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/models/Comanda.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/models/ElementComanda.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/models/OrdenarProductoPerVentas.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/models/Producto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/models/Track.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/models/Usuari.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/models/Usuari.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/services/TracksService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/upc/dsa/services/TracksService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/edu/upc/dsa/ManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/edu/upc/dsa/ManagerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -72,7 +55,20 @@
       <recent name="edu.upc.dsa.models" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.ManagerTest.ProbaBikesByUser">
+  <component name="RunManager" selected="Application.Main">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="edu.upc.dsa.Main" />
+      <module name="rest-example2" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="edu.upc.dsa.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="ManagerTest.ProbaAddBike" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rest-example2" />
       <extension name="coverage">
@@ -84,22 +80,6 @@
       <option name="PACKAGE_NAME" value="edu.upc.dsa" />
       <option name="MAIN_CLASS_NAME" value="edu.upc.dsa.ManagerTest" />
       <option name="METHOD_NAME" value="ProbaAddBike" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ManagerTest.ProbaAddStation" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="rest-example2" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="edu.upc.dsa.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="edu.upc.dsa" />
-      <option name="MAIN_CLASS_NAME" value="edu.upc.dsa.ManagerTest" />
-      <option name="METHOD_NAME" value="ProbaAddStation" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -155,11 +135,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.ManagerTest.ProbaBikesByUser" />
+        <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.ManagerTest.ProbaGetBike" />
+        <item itemvalue="JUnit.ManagerTest.ProbaBikesByUser" />
         <item itemvalue="JUnit.ManagerTest.ProbaBikesByStationOrderByKms" />
         <item itemvalue="JUnit.ManagerTest.ProbaAddBike" />
-        <item itemvalue="JUnit.ManagerTest.ProbaAddStation" />
       </list>
     </recent_temporary>
   </component>

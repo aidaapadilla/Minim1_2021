@@ -1,6 +1,7 @@
 package edu.upc.dsa;
 
 import edu.upc.dsa.exception.StationNotFoundException;
+import edu.upc.dsa.exception.UserNotFoundException;
 import edu.upc.dsa.models.Bicing;
 import edu.upc.dsa.models.MyBike;
 import edu.upc.dsa.models.Usuari;
@@ -91,13 +92,15 @@ public class ManagerTest {
         Assert.assertEquals(manager.bikesByStationOrderByKms("Horta"),llistaOrdenada);
     }
     @Test
-    public void ProbaGetBike(){
+    public void ProbaGetBike() throws UserNotFoundException {
         MyBike bike5 = new MyBike(5,100,"honolulu");
         Usuari ballenata2 = new Usuari("ballenata","123456789A",bike5);
-        Assert.assertEquals(manager.getBike(ballenata2),bike5);
+        manager.añadirUsuario(ballenata2);
+        manager.addBike(bike5);
+        Assert.assertEquals(manager.getBike("ballenata"),bike5);
     }
     @Test
-    public void ProbaBikesByUser(){
+    public void ProbaBikesByUser() throws UserNotFoundException {
         MyBike bike5 = new MyBike(5,100,"honolulu");
         Usuari ballenata2 = new Usuari("ballenata","123456789A",bike5);
         MyBike bike6 = new MyBike(6,120, "honolulu");
@@ -111,7 +114,8 @@ public class ManagerTest {
         llistaOrdenada.add(bike6);
         llistaOrdenada.add(bike7);
         llistaOrdenada.add(bike8);
-        Assert.assertEquals(manager.bikesByUser(ballenata2),llistaOrdenada);
+        manager.añadirUsuario(ballenata2);
+        Assert.assertEquals(manager.bikesByUser("ballenata"),llistaOrdenada);
     }
 
 }
